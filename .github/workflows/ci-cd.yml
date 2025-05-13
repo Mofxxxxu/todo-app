@@ -36,10 +36,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-files
-          path: ./dist
+          path: ./build  # Create React Appの場合は./buildが出力先
+
+      # ビルドディレクトリの内容を確認（デバッグ用）
+      - name: List build directory contents
+        run: ls -la ./build || ls -la ./
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build  # Create React Appの場合は./buildが出力先
